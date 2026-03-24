@@ -23,11 +23,17 @@ export async function POST(req) {
 
   console.log("FULL BODY:", JSON.stringify(body, null, 2));
 
+  // ✅ correct extraction
   const eventName =
+    body?.event?.name ||   // THIS is your case
     body.type ||
     body.event ||
-    body.event_type ||
-    body?.data?.type;
+    body.event_type;
+
+  const eventData =
+    body?.event?.data ||   // THIS is your case
+    body.data ||
+    body;
 
   if (!eventName) {
     console.error("EVENT NAME STILL MISSING:", body);
@@ -36,7 +42,7 @@ export async function POST(req) {
 
   await inngest.send({
     name: eventName,
-    data: body.data || body,
+    data: eventData,
   });
 
   return new Response("ok");
