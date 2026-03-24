@@ -22,10 +22,17 @@ export const { GET, PUT } = serve({
 export async function POST(req) {
   const body = await req.json();
 
-  console.log("CLERK EVENT RECEIVED:", body.type);
+  console.log("FULL BODY:", body);
+
+  const eventName = body.type || body.event || body.event_type;
+
+  if (!eventName) {
+    console.error("NO EVENT NAME FOUND", body);
+    return new Response("No event name", { status: 400 });
+  }
 
   await inngest.send({
-    name: body.type,   // user.created
+    name: eventName,
     data: body.data,
   });
 
