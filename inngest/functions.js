@@ -1,5 +1,11 @@
 import { inngest } from "./client";
-import prisma from '@/lib/prisma'
+
+export const someFunction = async () => {
+  const { prisma } = await import("@/lib/prisma");
+
+  const users = await prisma.user.findMany();
+  return users;
+};
 
 export const syncUserCreation = inngest.createFunction(
   { id: "sync-user-creation" },
