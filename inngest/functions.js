@@ -57,3 +57,4 @@ export const syncUserDeletion = inngest.createFunction(
     });
   }
 );
+
