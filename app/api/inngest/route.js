@@ -8,7 +8,6 @@ import {
   syncUserDeletion,
 } from "@/inngest/functions";
 
-// Inngest handlers (NO POST here)
 export const { GET, PUT } = serve({
   client: inngest,
   functions: [
@@ -18,22 +17,26 @@ export const { GET, PUT } = serve({
   ],
 });
 
-// 🔥 THIS is what you were missing
+// 👇 THIS is where you paste it
 export async function POST(req) {
   const body = await req.json();
 
-  console.log("FULL BODY:", body);
+  console.log("FULL BODY:", JSON.stringify(body, null, 2));
 
-  const eventName = body.type || body.event || body.event_type;
+  const eventName =
+    body.type ||
+    body.event ||
+    body.event_type ||
+    body?.data?.type;
 
   if (!eventName) {
-    console.error("NO EVENT NAME FOUND", body);
-    return new Response("No event name", { status: 400 });
+    console.error("EVENT NAME STILL MISSING:", body);
+    return new Response("Missing event name", { status: 400 });
   }
 
   await inngest.send({
     name: eventName,
-    data: body.data,
+    data: body.data || body,
   });
 
   return new Response("ok");
