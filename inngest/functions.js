@@ -3,7 +3,7 @@ import { inngest } from "./client";
 export const syncUserCreation = inngest.createFunction(
   {
     id: "sync-user-creation",
-    triggers: { event: "user.created" },
+    triggers: { event: "clerk/user.created" },
   },
   async ({ event }) => {
     const { prisma } = await import("@/lib/prisma");
@@ -24,7 +24,7 @@ export const syncUserCreation = inngest.createFunction(
 export const syncUserUpdation = inngest.createFunction(
   {
     id: "sync-user-updation",
-    triggers: { event: "user.updated" },
+    triggers: { event: "clerk/user.updated" },
   },
   async ({ event }) => {
     const { prisma } = await import("@/lib/prisma");
@@ -45,7 +45,7 @@ export const syncUserUpdation = inngest.createFunction(
 export const syncUserDeletion = inngest.createFunction(
   {
     id: "sync-user-delete",
-    triggers: { event: "user.deleted" },
+    triggers: { event: "clerk/user.deleted" },
   },
   async ({ event }) => {
     const { prisma } = await import("@/lib/prisma");
@@ -57,4 +57,3 @@ export const syncUserDeletion = inngest.createFunction(
     });
   }
 );
-

@@ -17,7 +17,6 @@ export const { GET, PUT } = serve({
   ],
 });
 
-// 👇 THIS is where you paste it
 export async function POST(req) {
   const body = await req.json();
 
